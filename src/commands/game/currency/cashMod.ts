@@ -78,7 +78,7 @@ export default class CashModCommand extends KauriCommand {
                 try {
                     await member.trainer.pay(alias === "pay" ? amount : -amount);
                 } catch (e) {
-                    this.client.logger.parseError(e);
+                    this.client.logger.error(e);
                 }
 
                 embed
@@ -86,10 +86,10 @@ export default class CashModCommand extends KauriCommand {
                     .addFields({ name: "**Updated Balance**", value: member.trainer.cash.to$() });
 
                 prompt.edit(embed);
-                return this.client.logger[alias as "pay" | "deduct"](message, prompt);
+                //return this.client.logger[alias as "pay" | "deduct"](message, prompt);
             }
         } catch (e) {
-            this.client.logger.parseError(e);
+            this.client.logger.error(e);
         }
     }
 }

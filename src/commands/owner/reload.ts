@@ -27,7 +27,7 @@ export default class ReloadCommand extends KauriCommand {
 
         command.reload();
 
-        this.client.logger.reload(message, command);
+        //this.client.logger.reload(message, command);
         message.util!.send(`${command.constructor.name} reloaded`);
     }
 }

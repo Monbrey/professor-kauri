@@ -113,13 +113,13 @@ export default class EloCommand extends KauriCommand {
             try {
                 await Promise.all([winner.trainer.save(), loser.trainer.save()]);
 
-                message.client.logger.elo(message, winner, loser);
+                //message.client.logger.elo(message, winner, loser);
 
                 embed.setTitle("ELO Rating Update");
                 delete embed.footer;
                 await prompt.edit(embed);
             } catch (e) {
-                message.client.logger.parseError(e);
+                message.client.logger.error(e);
             }
         } else return prompt.delete();
     }

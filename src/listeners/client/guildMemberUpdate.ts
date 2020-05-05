@@ -10,6 +10,6 @@ export default class GuildMemberUpdateListener extends Listener {
     }
 
     public async exec(oldMember: GuildMember, newMember: GuildMember) {
-        return this.client.logger.guildMemberUpdate(oldMember, newMember);
+        //return this.client.logger.guildMemberUpdate(oldMember, newMember);
     }
 }

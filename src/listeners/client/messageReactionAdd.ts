@@ -132,6 +132,6 @@ export default class MessageReactionAddListener extends Listener {
             } else { return await starChannel.send(embed); }
         }, { priority: 1 });
 
-        return this.client.logger.messageReactionAdd(reaction, user);
+        //return this.client.logger.messageReactionAdd(reaction, user);
     }
 }

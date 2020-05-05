@@ -24,12 +24,12 @@ export default class GuildMemberAddListener extends Listener {
             .setThumbnail("https://pokemonurpg.com/img/info/general/urpg-logo-large.png")
             .setAuthor("Professor Kauri", this.client.user!.displayAvatarURL(), "https://pokemonurpg.com/");
 
-        this.client.logger.guildMemberAdd(member);
+        //this.client.logger.guildMemberAdd(member);
 
         try {
             return member.send(embed);
         } catch (e) {
-            return this.client.logger.parseError(e);
+            return this.client.logger.error(e);
         }
     }
 }

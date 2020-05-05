@@ -149,12 +149,12 @@ export default class BattleLogCommand extends KauriCommand {
                     ref.trainer.pay(payments.ref)
                 ]);
             } catch (e) {
-                this.client.logger.parseError(e);
+                this.client.logger.error(e);
                 return message.channel.embed("error", "Error encountered while logging payments to databse.");
             }
 
             this.logMessage.reactions.removeAll();
-            this.client.logger.reflog(message, this.logMessage);
+            //this.client.logger.reflog(message, this.logMessage);
             this.logEmbed.setDescription(`${preDescription}\n\nPayments confirmed and logged`);
             this.logMessage.edit(this.logEmbed);
         } else {

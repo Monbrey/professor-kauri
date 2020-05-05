@@ -15,6 +15,7 @@ export default class PruneCommand extends KauriCommand {
             category: "Admin",
             description: "Bulk deletes messages from the channel.\nCan be targetted at a specific user.",
             channel: "guild",
+            logToDiscord: true,
             usage: "prune [1-100] [user]",
             userRoles: [Roles.Staff]
         });
@@ -40,9 +41,9 @@ export default class PruneCommand extends KauriCommand {
         const toDelete = user ? message.channel.messages.cache.filter(m => !!m.author && m.author.id === user.id) : count;
         try {
             const deleted = await message.channel.bulkDelete(toDelete, true);
-            this.client.logger.prune(message, deleted.size);
+            //this.client.logger.prune(message, deleted.size);
         } catch (e) {
-            this.client.logger.parseError(e);
+            this.client.logger.error(e);
         }
         return true;
     }

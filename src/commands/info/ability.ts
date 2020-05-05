@@ -34,14 +34,14 @@ export default class AbilityCommand extends KauriCommand {
         try {
             const ability = await Ability.findClosest("abilityName", query);
             if (ability) {
-                this.client.logger.ability(message, query, ability.abilityName);
+                //this.client.logger.ability(message, query, ability.abilityName);
                 return message.util!.send(ability.info());
             } else {
-                this.client.logger.ability(message, query, "none");
+                //this.client.logger.ability(message, query, "none");
                 return message.channel.embed("warn", `No results found for ${query}`);
             }
         } catch (e) {
-            this.client.logger.parseError(e);
+            this.client.logger.error(e);
         }
     }
 }

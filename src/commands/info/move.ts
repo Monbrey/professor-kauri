@@ -34,14 +34,14 @@ export default class MoveCommand extends KauriCommand {
         try {
             const move = await Move.findClosest("moveName", query);
             if (move) {
-                this.client.logger.move(message, query, move.moveName);
+                //this.client.logger.move(message, query, move.moveName);
                 return message.util!.send(await move.info());
             } else {
-                this.client.logger.move(message, query, "none");
+                //this.client.logger.move(message, query, "none");
                 return message.channel.embed("warn", `No results found for ${query}`);
             }
         } catch (e) {
-            this.client.logger.parseError(e);
+            this.client.logger.error(e);
         }
     }
 }

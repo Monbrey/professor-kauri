@@ -1,15 +1,19 @@
 // Dependencies
+import { stripIndent } from "common-tags";
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from "discord-akairo";
 import { ClientOptions, Collection, Message } from "discord.js";
 import { Connection } from "mongoose";
 import queue from "p-queue";
 import { join } from "path";
 import { Client as UrpgClient } from "urpg.js";
+import { Logger } from "winston";
+import { KauriCommand } from "../lib/commands/KauriCommand";
+// Models
 import { IRoleConfig, RoleConfig } from "../models/roleConfig";
 import { ISettings, Settings } from "../models/settings";
 // Utilities
 import { db, instanceDB } from "../util/db";
-import Logger from "../util/logger";
+import { createCustomLogger } from "../util/logger";
 
 interface IKauriClient {
     commandHandler: CommandHandler;
@@ -47,7 +51,7 @@ export default class KauriClient extends AkairoClient {
     constructor(options: ClientOptions = {}) {
         super({ ownerID: "122157285790187530", fetchAllMembers: true }, options);
 
-        this.logger = new Logger(this);
+        this.logger = createCustomLogger(this);
         this.urpg = new UrpgClient({ nullHandling: true });
 
         this.db = {
@@ -97,6 +101,30 @@ export default class KauriClient extends AkairoClient {
                 return phrase.split(/,\s+?/).map(p => this.commandHandler.resolver.type("pokemon")(message, phrase));
             });
 
+        this.commandHandler.on("commandFinished", (message, command, args) => {
+            const logMessage = stripIndent`
+            ${message.author.tag} (${message.author.id}) ran ${command.id} in #${message.channel.type === "dm" ? "DM" : message.channel.name}
+                args : ${JSON.stringify(args)}
+                url  : ${message.url}`;
+
+            if (!command.logToDiscord) return this.logger.info(logMessage);
+
+            const embed = {
+                author: {
+                    name: `${message.author.tag} (${message.author.id})`,
+                    icon_url: message.author.displayAvatarURL({ format: "png" })
+                },
+                description: stripIndent`
+                Ran command "${command.id}" in #${message.channel.type === "dm" ? "DM" : message.channel.name}
+                args: \`${JSON.stringify(args)}\`
+                url: ${message.deleted ? "Message deleted" : `[Go to Message](${message.url})`}`,
+                timestamp: Date.now(),
+            }
+
+            return this.logger.info({ message: logMessage, embed, guild: message.guild?.id });
+
+        })
+
         this.inhibitorHandler = new InhibitorHandler(this, {
             directory: join(__dirname, "..", "inhibitors"),
         });
@@ -108,7 +136,7 @@ export default class KauriClient extends AkairoClient {
 
     public async start() {
         await this.init();
-        return this.login(process.env.KAURI_TOKEN).catch(e => this.logger.parseError(e));
+        return this.login(process.env.KAURI_TOKEN).catch(e => this.logger.error(e));
     }
 
     private async init() {

@@ -150,19 +150,19 @@ export default class TimerCommand extends KauriCommand {
     public async exec(message: Message, { operation, duration, target, users }: CommandArgs) {
         switch (operation) {
             case "set":
-                if (!duration || !users) return this.client.logger.parseError(new Error("Parameters missing from timer#set"));
+                if (!duration || !users) return this.client.logger.error(new Error("Parameters missing from timer#set"));
                 return this.setTimer(message, duration, users.map(u => u.id));
             case "clear":
-                if (!target) return this.client.logger.parseError(new Error("Parameters missing from timer#clear"));
+                if (!target) return this.client.logger.error(new Error("Parameters missing from timer#clear"));
                 return this.clearTimer(message, target);
             case "pause":
-                if (!duration || !target) return this.client.logger.parseError(new Error("Parameters missing from timer#pause"));
+                if (!duration || !target) return this.client.logger.error(new Error("Parameters missing from timer#pause"));
                 return this.pauseTimer(message, target, duration);
             case "resume":
-                if (!target) return this.client.logger.parseError(new Error("Parameters missing from timer#resume"));
+                if (!target) return this.client.logger.error(new Error("Parameters missing from timer#resume"));
                 return this.resumeTimer(message, target);
             case "extend":
-                if (!duration || !target) return this.client.logger.parseError(new Error("Parameters missing from timer#extend"));
+                if (!duration || !target) return this.client.logger.error(new Error("Parameters missing from timer#extend"));
                 return this.extendTimer(message, target, duration);
         }
     }

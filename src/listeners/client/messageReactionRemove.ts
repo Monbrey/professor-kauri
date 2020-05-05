@@ -100,6 +100,6 @@ export default class MessageReactionRemoveListener extends Listener {
             }
         });
 
-        return this.client.logger.messageReactionRemove(reaction, user);
+        //return this.client.logger.info(reaction, user);
     }
 }

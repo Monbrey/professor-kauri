@@ -67,6 +67,6 @@ export default class DiceCommand extends KauriCommand {
             }
         }) as Message;
         if (verify) response.edit(response.embeds[0].setFooter(`ID: ${response.id}`));
-        return this.client.logger.dice(message, response.id, rolls.join(", "));
+        //return this.client.logger.dice(message, response.id, rolls.join(", "));
     }
 }

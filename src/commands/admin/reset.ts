@@ -34,10 +34,10 @@ export default class ResetCommand extends KauriCommand {
             const clone = await target.clone();
             if (target.parent) { await clone.setParent(target.parent); }
             await clone.setPosition(target.position);
-            this.client.logger.prune(message, "all");
+            //this.client.logger.prune(message, "all");
             return target.delete();
         } catch (e) {
-            this.client.logger.parseError(e);
+            this.client.logger.error(e);
         }
     }
 }

@@ -57,7 +57,7 @@ export default class DexCommand extends KauriCommand {
 
             return alias === "dex" ? this.dexPrompt(dex as DexMessage) : this.backPrompt(dex as DexMessage);
         } catch (e) {
-            this.client.logger.parseError(e);
+            this.client.logger.error(e);
         }
     }
 
